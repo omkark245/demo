@@ -56,6 +56,8 @@ const Dashboard = () => {
             console.log(err);
             if(err.response?.status === 401 || err.response?.status === 403) {
                 navigate('/');
+            } else {
+                alert("An error occurred while adding the employee.")
             }
         })
     }
@@ -66,60 +68,140 @@ const Dashboard = () => {
     }
 
     return (
-        <div style={{ padding: '2rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h1>Employee Management Dashboard</h1>
-                <button onClick={handleLogout} style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>Logout</button>
-            </div>
+        <div style={{ minHeight: '100vh', backgroundColor: '#f1f5f9', fontFamily: "'Inter', sans-serif" }}>
+            {/* Header */}
+            <header style={{
+                backgroundColor: 'white',
+                padding: '1rem 2rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+            }}>
+                <h1 style={{ margin: 0, fontSize: '1.25rem', color: '#0f172a', fontWeight: '700' }}>Employee Manager</h1>
+                <button
+                    onClick={handleLogout}
+                    style={{
+                        padding: '0.5rem 1rem',
+                        backgroundColor: 'white',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: '6px',
+                        color: '#475569',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        fontSize: '0.875rem'
+                    }}
+                >
+                    Logout
+                </button>
+            </header>
 
-            <div style={{ marginTop: '2rem', display: 'flex', gap: '2rem' }}>
-                <div style={{ flex: 1, backgroundColor: '#f8f9fa', padding: '1.5rem', borderRadius: '8px' }}>
-                    <h3>Add Employee</h3>
-                    <form onSubmit={handleSubmit}>
-                        <div style={{ marginBottom: '1rem' }}>
-                            <label>Name:</label>
-                            <input type="text" value={employee.name} onChange={(e) => setEmployee({...employee, name: e.target.value})} style={{ width: '100%', padding: '0.5rem' }} required/>
-                        </div>
-                        <div style={{ marginBottom: '1rem' }}>
-                            <label>Email:</label>
-                            <input type="email" value={employee.email} onChange={(e) => setEmployee({...employee, email: e.target.value})} style={{ width: '100%', padding: '0.5rem' }} required/>
-                        </div>
-                        <div style={{ marginBottom: '1rem' }}>
-                            <label>Position:</label>
-                            <input type="text" value={employee.position} onChange={(e) => setEmployee({...employee, position: e.target.value})} style={{ width: '100%', padding: '0.5rem' }} required/>
-                        </div>
-                        <div style={{ marginBottom: '1rem' }}>
-                            <label>Salary:</label>
-                            <input type="number" value={employee.salary} onChange={(e) => setEmployee({...employee, salary: e.target.value})} style={{ width: '100%', padding: '0.5rem' }} required/>
-                        </div>
-                        <button type="submit" style={{ width: '100%', padding: '0.75rem', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Add Employee</button>
-                    </form>
-                </div>
+            <main style={{ padding: '2rem', maxWidth: '1200px', margin: '0 auto' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '2rem' }}>
 
-                <div style={{ flex: 2 }}>
-                    <h3>Employee List</h3>
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        <thead>
-                            <tr style={{ backgroundColor: '#e9ecef' }}>
-                                <th style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>Name</th>
-                                <th style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>Email</th>
-                                <th style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>Position</th>
-                                <th style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>Salary</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {employees.map(e => (
-                                <tr key={e.id}>
-                                    <td style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>{e.name}</td>
-                                    <td style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>{e.email}</td>
-                                    <td style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>{e.position}</td>
-                                    <td style={{ border: '1px solid #dee2e6', padding: '0.5rem' }}>{e.salary}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    {/* Form Section */}
+                    <div style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.125rem', color: '#1e293b' }}>Add New Employee</h3>
+                        <form onSubmit={handleSubmit}>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.875rem', fontWeight: '500', color: '#475569' }}>Full Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. John Doe"
+                                    value={employee.name}
+                                    onChange={(e) => setEmployee({...employee, name: e.target.value})}
+                                    style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }}
+                                    required
+                                />
+                            </div>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.875rem', fontWeight: '500', color: '#475569' }}>Email Address</label>
+                                <input
+                                    type="email"
+                                    placeholder="john@example.com"
+                                    value={employee.email}
+                                    onChange={(e) => setEmployee({...employee, email: e.target.value})}
+                                    style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }}
+                                    required
+                                />
+                            </div>
+                            <div style={{ marginBottom: '1rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.875rem', fontWeight: '500', color: '#475569' }}>Position</label>
+                                <input
+                                    type="text"
+                                    placeholder="e.g. Software Engineer"
+                                    value={employee.position}
+                                    onChange={(e) => setEmployee({...employee, position: e.target.value})}
+                                    style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }}
+                                    required
+                                />
+                            </div>
+                            <div style={{ marginBottom: '1.5rem' }}>
+                                <label style={{ display: 'block', marginBottom: '0.4rem', fontSize: '0.875rem', fontWeight: '500', color: '#475569' }}>Salary ($)</label>
+                                <input
+                                    type="number"
+                                    placeholder="e.g. 50000"
+                                    value={employee.salary}
+                                    onChange={(e) => setEmployee({...employee, salary: e.target.value})}
+                                    style={{ width: '100%', padding: '0.6rem', borderRadius: '6px', border: '1px solid #cbd5e1', boxSizing: 'border-box' }}
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                style={{
+                                    width: '100%',
+                                    padding: '0.75rem',
+                                    backgroundColor: '#2563eb',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    fontWeight: '600',
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                Add Employee
+                            </button>
+                        </form>
+                    </div>
+
+                    {/* Table Section */}
+                    <div style={{ backgroundColor: 'white', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)' }}>
+                        <h3 style={{ marginTop: 0, marginBottom: '1.5rem', fontSize: '1.125rem', color: '#1e293b' }}>Employee Directory</h3>
+                        <div style={{ overflowX: 'auto' }}>
+                            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                                <thead>
+                                    <tr style={{ borderBottom: '2px solid #f1f5f9' }}>
+                                        <th style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#64748b', fontWeight: '600' }}>Name</th>
+                                        <th style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#64748b', fontWeight: '600' }}>Position</th>
+                                        <th style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#64748b', fontWeight: '600' }}>Email</th>
+                                        <th style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', color: '#64748b', fontWeight: '600', textAlign: 'right' }}>Salary</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {employees.length > 0 ? employees.map(e => (
+                                        <tr key={e.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                            <td style={{ padding: '1rem', fontSize: '0.875rem', color: '#0f172a' }}>{e.name}</td>
+                                            <td style={{ padding: '1rem', fontSize: '0.875rem', color: '#475569' }}>
+                                                <span style={{ backgroundColor: '#f1f5f9', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem' }}>{e.position}</span>
+                                            </td>
+                                            <td style={{ padding: '1rem', fontSize: '0.875rem', color: '#475569' }}>{e.email}</td>
+                                            <td style={{ padding: '1rem', fontSize: '0.875rem', color: '#0f172a', fontWeight: '600', textAlign: 'right' }}>
+                                                ${Number(e.salary).toLocaleString()}
+                                            </td>
+                                        </tr>
+                                    )) : (
+                                        <tr>
+                                            <td colSpan="4" style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8', fontSize: '0.875rem' }}>No employees found.</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+            </main>
         </div>
     )
 }
